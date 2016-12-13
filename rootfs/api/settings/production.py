@@ -99,7 +99,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     # Third-party apps
     'corsheaders',
-    'django_auth_ldap',
     'guardian',
     'gunicorn',
     'jsonfield',
