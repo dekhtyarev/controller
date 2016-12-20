@@ -7,7 +7,6 @@ import time
 from scheduler.exceptions import KubeException, KubeHTTPException
 from scheduler.resources import Resource
 from scheduler.states import PodState
-from scheduler.resources.namespace import Namespace
 
 
 class Pod(Resource):
