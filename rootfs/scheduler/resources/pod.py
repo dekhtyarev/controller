@@ -7,6 +7,7 @@ import time
 from scheduler.exceptions import KubeException, KubeHTTPException
 from scheduler.resources import Resource
 from scheduler.states import PodState
+from scheduler.resources.namespace import Namespace
 
 
 class Pod(Resource):
@@ -692,6 +693,16 @@ class Pod(Resource):
         any potential issues around that mainly failed healthcheks
         """
         pods = self.get(namespace, labels=labels).json()
+
+        if len(pods['items']) == 0:
+            self.log(namespace, "No pods scheduled, try to get last 3 events to provide info about problems to user")  # noqa
+            response = self.ns.events(namespace).json()
+            items = response['items']
+            events = ''
+            for item in items:
+                events += 'Message: {}, count: {}\n'.format(item.get('message', 'no message'), item.get('count', 0))  # noqa
+            raise KubeException(events)
+
         for pod in pods['items']:
             # only care about pods that are in running phase
             if pod['status']['phase'] != 'Running':
