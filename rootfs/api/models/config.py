@@ -18,7 +18,7 @@ class Config(UuidAuditedModel):
     values = JSONField(default={}, blank=True)
     memory = JSONField(default={}, blank=True)
     cpu = JSONField(default={}, blank=True)
-    tags = JSONField(default={}, blank=True)
+    tags = JSONField(default={'role': 'worker'}, blank=True)
     registry = JSONField(default={}, blank=True)
     healthcheck = JSONField(default={}, blank=True)
 
